@@ -26,9 +26,9 @@ resource "aws_security_group" "allow_ssh" {
 }
 
 resource "aws_instance" "test_instance" {
-  ami           = "ami-0b05d988257befbbe" # Example AMI ID, replace with a valid one
-  instance_type = "t2.micro"
-  key_name = "aws-testuser123" # Replace with your key pair name
+  ami                    = "ami-0b05d988257befbbe" # Example AMI ID, replace with a valid one
+  instance_type          = "t2.micro"
+  key_name               = "aws-testuser123" # Replace with your key pair name
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
   tags = {
     Name = "TestInstance"
