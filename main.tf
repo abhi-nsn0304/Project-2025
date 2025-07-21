@@ -2,6 +2,12 @@ provider "aws" {
   region = "us-east-2"
 }
 
+variable "server_port" {
+  description = "The port on which the server will run"
+  type        = number
+  default     = 22
+}
+
 resource "aws_security_group" "allow_ssh" {
   name        = "allow_ssh"
   description = "Allow SSH inbound traffic"
@@ -9,8 +15,8 @@ resource "aws_security_group" "allow_ssh" {
 
   ingress {
     description = "SSH from anywhere"
-    from_port   = 22
-    to_port     = 22
+    from_port   = var.server_port
+    to_port     = var.server_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # Allow SSH from anywhere, consider restricting this in production
   }
@@ -33,4 +39,9 @@ resource "aws_instance" "test_instance" {
   tags = {
     Name = "TestInstance"
   }
+}
+
+output "public_ip_ec2" {
+  description = "Public IP of the EC2 instance"
+  value       = aws_instance.test_instance.public_ip
 }
